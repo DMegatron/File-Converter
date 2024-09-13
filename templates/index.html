@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Converter</title>
+    <link rel="stylesheet" href="{{ url_for ('static', filename='CSS/style.css') }}">
+</head>
+
+<body>
+    <div class="main-body">
+        <form class="form" method="post" action="{{ url_for('index') }}" enctype="multipart/form-data">
+            <input class="file" type="file" name="file" required>
+            <select class="file-type" name="file_type" required>
+                <option value="jpg_to_png">JPG to PNG</option>
+                <option value="jpg_to_pdf">JPG to PDF</option>
+                <option value="png_to_jpg">PNG to JPG</option>
+                <option value="png_to_pdf">PNG to PDF</option>
+                <option value="pdf_to_word">PDF to Word</option>
+                <option value="pdf_to_jpg">PDF to JPG</option>
+                <option value="pdf_to_png">PDF to PNG</option>
+                <option value="word_to_pdf">Word to PDF</option>
+            </select>
+            <button class="upload-btn" type="submit">Convert</button>
+        </form>
+
+        {% if show_button %}
+        <a href="{{ download_url }}" class="download-btn" onclick="x()">Download Converted File</a>
+        {% endif %}
+        </div>
+</body>
+
+<script>
+    function x() {
+        setTimeout(() => {
+            window.location.href = "{{ url_for('index') }}";
+        }, 1000);
+    }
+</script>
+
+</html>
