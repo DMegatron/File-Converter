@@ -4,39 +4,113 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Converter</title>
+    <title>File Converter</title>
     <link rel="stylesheet" href="{{ url_for ('static', filename='CSS/style.css') }}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
 
 <body>
-    <div class="main-body">
-        <form class="form" method="post" action="{{ url_for('index') }}" enctype="multipart/form-data">
-            <input class="file" type="file" name="file" required>
-            <select class="file-type" name="file_type" required>
-                <option value="jpg_to_png">JPG to PNG</option>
-                <option value="jpg_to_pdf">JPG to PDF</option>
-                <option value="png_to_jpg">PNG to JPG</option>
-                <option value="png_to_pdf">PNG to PDF</option>
-                <option value="pdf_to_word">PDF to Word</option>
-                <option value="pdf_to_jpg">PDF to JPG</option>
-                <option value="pdf_to_png">PDF to PNG</option>
-                <option value="word_to_pdf">Word to PDF</option>
-            </select>
-            <button class="upload-btn" type="submit">Convert</button>
-        </form>
+    <div class="container">
+        <div class="main-body">
+            <div class="header">
+                <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                    <polyline points="14 2 14 8 20 8"></polyline>
+                    <line x1="12" y1="18" x2="12" y2="12"></line>
+                    <line x1="9" y1="15" x2="15" y2="15"></line>
+                </svg>
+                <h1>File Converter</h1>
+                <p class="subtitle">Convert your files instantly</p>
+            </div>
 
-        {% if show_button %}
-        <a href="{{ download_url }}" class="download-btn" onclick="x()">Download Converted File</a>
-        {% endif %}
+            <form class="form" method="post" action="{{ url_for('index') }}" enctype="multipart/form-data" id="converterForm">
+                <div class="file-upload-wrapper">
+                    <input class="file-input" type="file" name="file" id="fileInput" required>
+                    <label for="fileInput" class="file-label">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                            <polyline points="17 8 12 3 7 8"></polyline>
+                            <line x1="12" y1="3" x2="12" y2="15"></line>
+                        </svg>
+                        <span class="file-label-text">Choose a file</span>
+                        <span class="file-name"></span>
+                    </label>
+                </div>
+
+                <div class="select-wrapper">
+                    <select class="file-type" name="file_type" required>
+                        <option value="" disabled selected>Select conversion type</option>
+                        <optgroup label="Image Conversions">
+                            <option value="jpg_to_png">JPG → PNG</option>
+                            <option value="jpg_to_pdf">JPG → PDF</option>
+                            <option value="png_to_jpg">PNG → JPG</option>
+                            <option value="png_to_pdf">PNG → PDF</option>
+                        </optgroup>
+                        <optgroup label="PDF Conversions">
+                            <option value="pdf_to_jpg">PDF → JPG</option>
+                            <option value="pdf_to_png">PDF → PNG</option>
+                        </optgroup>
+                    </select>
+                    <svg class="select-arrow" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="6 9 12 15 18 9"></polyline>
+                    </svg>
+                </div>
+
+                <button class="upload-btn" type="submit">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="20 6 9 17 4 12"></polyline>
+                    </svg>
+                    Convert File
+                </button>
+            </form>
+
+            {% if error %}
+            <div class="error-message">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <line x1="15" y1="9" x2="9" y2="15"></line>
+                    <line x1="9" y1="9" x2="15" y2="15"></line>
+                </svg>
+                {{ error }}
+            </div>
+            {% endif %}
+
+            {% if show_button %}
+            <a href="{{ download_url }}" class="download-btn" onclick="x()">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                    <polyline points="7 10 12 15 17 10"></polyline>
+                    <line x1="12" y1="15" x2="12" y2="3"></line>
+                </svg>
+                Download Converted File
+            </a>
+            {% endif %}
         </div>
-</body>
+    </div>
 
-<script>
-    function x() {
-        setTimeout(() => {
-            window.location.href = "{{ url_for('index') }}";
-        }, 1000);
-    }
-</script>
+    <script>
+        const fileInput = document.getElementById('fileInput');
+        const fileLabel = document.querySelector('.file-label-text');
+        const fileName = document.querySelector('.file-name');
+
+        fileInput.addEventListener('change', function(e) {
+            if (this.files && this.files.length > 0) {
+                fileLabel.textContent = 'File selected:';
+                fileName.textContent = this.files[0].name;
+            } else {
+                fileLabel.textContent = 'Choose a file';
+                fileName.textContent = '';
+            }
+        });
+
+        function x() {
+            setTimeout(() => {
+                window.location.href = "{{ url_for('index') }}";
+            }, 1000);
+        }
+    </script>
+</body>
 
 </html>

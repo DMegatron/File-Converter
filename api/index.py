@@ -7,7 +7,7 @@ import tempfile
 import fitz
 import zipfile
 
-app = Flask(__name__)
+app = Flask(__name__, template_folder='../templates', static_folder='../static')
 
 file_storage = {}
 
@@ -488,5 +488,5 @@ def download(file_id):
         return response
     return 'File not found', 404
 
-if __name__ == '__main__':
-    app.run(debug=True)
+# For Vercel
+app = app
